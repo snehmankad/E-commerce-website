@@ -1,0 +1,17 @@
+{% extends 'mainsite/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    
+
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Login</legend>
+            {{form|crispy}}
+        </fieldset>
+        <button class="btn btn-outline info" value="submit">Login</button>
+    </form>
+    <br>
+    <p>Not a user, <a class="mr-2" href="{% url 'customer_registration' %}">Register as a Customer</a>or <a class="mr-2" href="{% url 'vendor_registration' %}">Register as a Vendor</a></p>
+{% endblock content %}

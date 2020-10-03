@@ -1,0 +1,75 @@
+{% extends "mainsite/base.html" %}
+
+
+{% block content %}
+
+    {% for item in page_obj %}
+       
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ item.image.url}}" alt="">
+                <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'vendor_home' %}?name={{item.vendor}}">{{ item.vendor }}</a>
+                </div>
+                <h2><a class="article-title" href="{% url 'item_detail' item.id %}">{{ item.title }}</a></h2>
+                <p class="article-content" style="border-top: 1px solid grey; padding-top: 10px; ">{{ item.description }}</p>
+                <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Price: {{item.price}}</p>
+                {% if item.quantity_available > 0 %}
+                    <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Quantity available: {{item.quantity_available}}</p>
+                {% elif item.quantity_available == 0 %}
+                    <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Quantity available: <span style="color:red;">Out of stock</span></p>
+                {% endif %}
+                <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Sales: {{item.sales}}</p>
+                </div>
+                {% if user.is_customer %}
+                    {% if item.quantity_available > 0 %}
+                        <div style="margin-top:-12px; margin-left: 618px; position:absolute;" ><a class="btn btn-primary btn-sm mt-5 mb-1" href="{% url 'buy_item' item.id %}">Buy now</a></div>
+                    {% elif item.quantity_available == 0 %}
+                    <div style="margin-top:-12px; margin-left: 618px; position:absolute;" ><a class="btn btn-secondary btn-sm mt-5 mb-1 disabled" href="#">Buy now</a></div>
+                    {% endif %}
+                {% endif %}
+            </article>
+                
+    {% endfor %}
+
+    <!-- {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number}}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{num}}">{{num}}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'  %}
+                <a class="btn btn-outline-info mb-4" href="?page={{num}}    ">{{num}}</a>
+            {% endif %}
+        {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number}}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+
+            {% endif %}
+        
+    {% endif %} -->
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">&laquo; first</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <button class="btn btn-info mb-4">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </button>
+    
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "mainsite/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <form method='POST'>
+        {% csrf_token %}
+        {{form|crispy}}
+        <button class="btn btn-outline info" type="submit">Add</button>
+    </form>
+{% endblock %}

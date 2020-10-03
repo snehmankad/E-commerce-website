@@ -1,0 +1,27 @@
+{% extends "mainsite/base.html" %}
+
+
+{% block content %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.image.url}}" alt="">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'vendor_home' %}?name={{object.vendor}}">{{ object.vendor }}</a>
+            <!-- <small class="text-muted">{{ object.date_posted | date:'F d, Y' }}</small> -->
+            {% if object.vendor == user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'item_update' object.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'item_delete' object.id %}">Delete</a>
+                </div>
+                
+            {% endif %}
+        </div>
+        <h2><a class="article-title" href="{% url 'item_detail' item.id %}">{{ item.title }}</a></h2>
+        <p class="article-content" style="border-top: 1px solid grey; padding-top: 10px; ">{{ item.description }}</p>
+        <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Price: {{item.price}}</p>
+        <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Quantity available: {{item.quantity_available}}</p>
+        <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Sales: {{item.sales}}</p>
+        </div>
+        {% if user.is_customer %}<div style="margin-top:-12px; margin-left: 618px; position:absolute;" ><a class="btn btn-primary btn-sm mt-5 mb-1" href="{% url 'buy_item' item.id %}">Buy now</a></div>{% endif %}
+    </article>
+{% endblock %}

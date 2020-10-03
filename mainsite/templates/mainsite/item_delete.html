@@ -1,0 +1,15 @@
+{% extends "mainsite/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <form method='POST'>
+        {% csrf_token %}
+        <fieldset>
+            <legend>Are you sure you want to delete this item?</legend>
+            {{form|crispy}}
+        </fieldset>
+        <button class="btn btn-outline-danger" type="submit">Delete permanently</button>
+        <a class="btn btn-outline-secondary" type="submit" href="{% url 'item_detail' item.id %}">Cancel</a>
+    </form>
+{% endblock %}

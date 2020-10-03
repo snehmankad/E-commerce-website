@@ -1,0 +1,9 @@
+{% extends "mainsite/base.html" %}
+
+
+{% block content %}
+    <p>Yayy! You have successfully completed the transaction.</p> 
+    <p>Thank you for shopping with us.</p>
+    <p>Return Home to continue shopping.</p>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'customer_home' %}">Home</a>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+    <link rel="stylesheet" type='text/css' href="{% static 'mainsite/main.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'mainsite/main2.css' %}">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <title>Flipkkart</title>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Flipkkart</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              {% if request.path != '/' %}<a class="nav-link" href="{% url 'customer_home' %}">Home<span class="sr-only"></span></a>{% endif %}
+            </li>
+            <li class="nav-item active">
+              {% if user.is_authenticated %}<a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              {% else %}
+                {% if request.path != '/login/' %}<a class="nav-link" href="{% url 'login' %}">Login</a>{% endif %}
+              {% endif %}
+
+            </li>
+            <li>
+              {% if user.is_customer %}
+                {% if request.path != '/wallet/' %}<a class="nav-link active" href="{% url 'wallet' %}">Wallet<span class="sr-only"></span></a>{% endif %}
+              {% endif %}
+            </li>
+            <li>
+              {% if user.is_authenticated %}
+                {% if user.is_customer %}
+                {% if request.path != '/customer_items_bought/' %}<a class="nav-link active" href="{% url 'customer_items_bought' %}">Orders<span class="sr-only"></span></a>{% endif %}
+                {% endif %}
+              {% endif %}
+            
+            </li>
+
+            <!-- this style below is the css provided for register dropdown button. -->
+            <style> 
+              /* Style The Dropdown Button */
+              .dropbtn {
+                background-color: #343a40;
+                color: white;
+                padding: 8px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+              }
+              
+              /* The container <div> - needed to position the dropdown content */
+              .dropdown {
+                position: relative;
+                display: inline-block;
+              }
+              
+              /* Dropdown Content (Hidden by Default) */
+              .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 130px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+              }
+              
+              /* Links inside the dropdown */
+              .dropdown-content a {
+                color: black;
+                padding: 5px 10px;
+                text-decoration: none;
+                display: block;
+              }
+              
+              /* Change color of dropdown links on hover */
+              .dropdown-content a:hover {background-color: #f1f1f1}
+              
+              /* Show the dropdown menu on hover */
+              .dropdown:hover .dropdown-content {
+                display: block;
+              }
+              
+              /* Change the background color of the dropdown button when the dropdown content is shown */
+              .dropdown:hover .dropbtn {
+                background-color: #343a40;
+              }
+
+              </style>
+
+              {% if user.is_authenticated %}
+              {% else %}
+                <div class="dropdown">
+                  {% if request.path == '/customer_registration/' %}{% elif request.path == '/vendor_registration/' %}
+                  {% else %}
+                    <button class="dropbtn">Register</button>
+                    <div class="dropdown-content">
+                      <a href="{% url 'vendor_registration' %}">as a Vendor</a>
+                      <a href="{% url 'customer_registration' %}">as a Customer</a>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              {% if user.is_vendor %}
+                {% if request.path != '/create_item/' %}<div class="align_right"><a class="nav-link active" href="{% url 'create_item' %}">New Item</a></div>{% endif %}
+                {% if request.path != '/vendor_home/' %}<div class='align_right'><a class="nav-link active" href="{% url 'vendor_home' %}">Profile</a></div>{% endif %}
+              {% endif %}
+
+              <li>{% if user.is_authenticated %}
+                <div class="text-right"><a class="nav-link disabled" style="position:absolute; margin-left:900px;" href="#">hey, {{user.last_name}}</a></div>
+              {% endif %}</li>
+
+              
+          </ul>
+          <!-- <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div> -->
+      </nav>
+  
+      <main role="main" class="container">
+        <div class="row">
+          <div class="col-md-8">
+            {% if messages %}
+              {% for message in messages %}
+                <div class='alert alert-{{message.tags}}'>{{message}}</div>
+              {% endfor %}
+              {% endif %}
+            {% block content %}{% endblock %}
+          </div>
+          <div class="col-md-4">
+            <div class="content-section">
+              <h3 class="text-center">Miscellaneous</h3>
+              <p class='text-muted'>
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-light">Latest Posts</li>
+                  <li class="list-group-item list-group-item-light">Announcements</li>
+                  <li class="list-group-item list-group-item-light">Calendars</li>
+                  <li class="list-group-item list-group-item-light">etc</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+    
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="../../assets/js/vendor/popper.min.js"></script>
+  <script src="../../dist/js/bootstrap.min.js"></script>
+
+      
+</body>
+</html>

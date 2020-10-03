@@ -1,0 +1,14 @@
+{% extends "mainsite/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <form method='POST'>
+        {% csrf_token %}
+        <fieldset>
+            <legend>Register an Item</legend>
+            {{form|crispy}}
+        </fieldset>
+        <button class="btn btn-outline info" type="submit">Register Item</button>
+    </form>
+{% endblock %}

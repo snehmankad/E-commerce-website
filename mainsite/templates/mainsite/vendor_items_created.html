@@ -1,0 +1,23 @@
+{% extends "mainsite/base.html" %}
+
+
+{% block content %}
+
+    {% for item in items %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ item.image.url}}" alt="">
+            <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ item.vendor }}</a>
+            </div>
+            <h2><a class="article-title" href="{% url 'item_detail' item.id %}">{{ item.title }}</a></h2>
+            <p class="article-content">{{ item.description }}</p>
+            <h5 class="mr-2">{{item.price}}</h5>
+            <p>Quantity available: {{item.quantity_available}}</p>
+            <p>Sales: {{item.sales}}</p>
+            </div>
+        </article>
+             
+    {% endfor %}
+
+{% endblock %}

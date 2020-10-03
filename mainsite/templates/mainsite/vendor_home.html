@@ -1,0 +1,36 @@
+{% extends "mainsite/base.html" %}
+
+
+{% block content %}
+    <div><h5>Name: {{user_common.first_name}} {{user_common.last_name}}</h5>
+
+    <h5>The items registered by {{user_common.username}} are shown here.</h5></div>
+<br> 
+
+    {% for item in items %}
+        <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ item.image.url}}" alt="">
+                <div class="media-body">
+
+                <h2><a class="article-title" href="{% url 'item_detail' item.id %}">{{ item.title }}</a></h2>
+                <p class="article-content" style="border-top: 1px solid grey; padding-top: 10px; ">{{ item.description }}</p>
+                <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Price: {{item.price}}</p>
+                {% if item.quantity_available > 0 %}
+                    <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Quantity available: {{item.quantity_available}}</p>
+                {% elif item.quantity_available == 0 %}
+                    <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Quantity available: <span style="color:red;">Out of stock</span></p>
+                {% endif %}
+                <p style="border: 1px solid lightgrey; padding: 0px 5px 5px 10px; ">Sales: {{item.sales}}</p>
+                </div>
+                {% if user.is_customer %}
+                    {% if item.quantity_available > 0 %}
+                        <div style="margin-top:-44px; margin-left: 618px; position:absolute;" ><a class="btn btn-primary btn-sm mt-5 mb-1" href="{% url 'buy_item' item.id %}">Buy now</a></div>
+                    {% elif item.quantity_available == 0 %}
+                    <div style="margin-top:-44px; margin-left: 618px; position:absolute;" ><a class="btn btn-secondary btn-sm mt-5 mb-1 disabled" href="#">Buy now</a></div>
+                    {% endif %}
+                {% endif %}
+            </article>
+             
+    {% endfor %}
+
+{% endblock %}
