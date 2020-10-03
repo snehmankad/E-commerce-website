@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8^=!!%bo56^s7l@*e0dpb&&^ozhg*kit0if*rsn0px@j!35-)6'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #(os.environ.get('DEBUG_VALUE')=='True')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['sneh-django-ecommerce-app.herokuapp.com']
 AUTH_USER_MODEL = 'users.User'
 
 
